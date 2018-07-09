@@ -152,6 +152,8 @@ const QDir &PluginContainer::pluginDir()
     if (!isLoaded) {
         isLoaded = true;
         QString appDir = qApp->applicationDirPath();
+        const auto suffix = QStringLiteral("/libsnore" SNORE_SUFFIX);
+        QStringList list { appDir };
 #ifdef Q_OS_MAC
         if (appDir == QLatin1String("MacOS")) {
             list << appDir;
@@ -163,8 +165,6 @@ const QDir &PluginContainer::pluginDir()
             appDir = dir.absolutePath();
         }
 #endif
-        const auto suffix = QStringLiteral("/libsnore" SNORE_SUFFIX);
-        QStringList list { appDir };
         for (const QString &s : qApp->libraryPaths()) {
          list << s + suffix;
         }
