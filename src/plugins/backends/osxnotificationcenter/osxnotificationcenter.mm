@@ -14,6 +14,7 @@ using namespace Snore;
 
 QMap<int, Notification> m_IdToNotification;
 NSMutableDictionary * m_IdToNSNotification;
+OSXNotificationCenter * notificationCenter = nil;
 
 
 void emitNotificationClicked(Notification notification) {
@@ -67,17 +68,45 @@ BOOL installNSBundleHook()
 }
 - (void) userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
 {
-    
     qCDebug(SNORE) << "User clicked on notification";
     int notificationId = [notification.userInfo[@"id"] intValue];
     [center removeDeliveredNotification: notification];
     if (!m_IdToNotification.contains(notificationId)) {
-        qCWarning(SNORE) << "User clicked on notification that was not recognized";
+        qCWarning(SNORE) << "User clicked on notification that was not recognized. Notification id:" << notificationId;
         return;
+    } else {
+        auto snoreNotification = m_IdToNotification[notificationId];
+        snoreNotification.data()->setCloseReason(Notification::Activated);
+        emitNotificationClicked(snoreNotification);
     }
-    auto snoreNotification = m_IdToNotification.take(notificationId);
-    snoreNotification.data()->setCloseReason(Notification::Activated);
-    emitNotificationClicked(snoreNotification);
+}
+- (void) userNotificationCenter:(NSUserNotificationCenter *)center didDeliverNotification:(NSUserNotification *)notification
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+        ^{
+            int notificationId = [notification.userInfo[@"id"] intValue];
+            BOOL notificationAvailable = YES;
+            while(notificationAvailable) {
+                notificationAvailable = NO;
+                for(NSUserNotification *osxNotification in [[NSUserNotificationCenter defaultUserNotificationCenter] deliveredNotifications]) {
+                    if([osxNotification.identifier isEqualToString:notification.identifier]) {
+                        notificationAvailable = YES;
+                        [NSThread sleepForTimeInterval:0.25f];
+                        break;
+                    }
+                }
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (!m_IdToNotification.contains(notificationId)) {
+                    qCWarning(SNORE) << "Delivered notification is not recognized and will not be remove from active list. Notification id:" << notificationId;
+                    return;
+                }
+            });
+            qCWarning(SNORE) << "Notification with following id is delivered or dismissed:" << notificationId;
+            auto snoreNotification = m_IdToNotification.take(notificationId);
+            snoreNotification.removeActiveIn(notificationCenter);
+            snoreNotification.removeActiveIn(&SnoreCore::instance());
+        });
 }
 @end
 
@@ -110,7 +139,7 @@ OSXNotificationCenter::OSXNotificationCenter()
     if (!delegate) {
         delegate = new UserNotificationItemClass();
     }
-    
+    notificationCenter = this;
 }
 
 OSXNotificationCenter::~OSXNotificationCenter()
@@ -125,6 +154,7 @@ void OSXNotificationCenter::slotNotify(Snore::Notification notification)
     osxNotification.title = notification.title().toNSString();
     osxNotification.userInfo = [NSDictionary dictionaryWithObjectsAndKeys:notificationId, @"id", nil];
     osxNotification.informativeText = notification.text().toNSString();
+    osxNotification.identifier = notificationId;
     
     // Add notification to mapper from id to Nofification / NSUserNotification
     m_IdToNotification.insert(notification.id(), notification);
