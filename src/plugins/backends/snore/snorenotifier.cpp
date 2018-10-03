@@ -60,6 +60,11 @@ void SnorePlugin::Snore::slotNotify(::Snore::Notification notification)
     }
 }
 
+void SnorePlugin::Snore::setDockBadgeLabel(const QString label)
+{
+
+}
+
 void SnorePlugin::Snore::slotCloseNotification(::Snore::Notification notification)
 {
     NotifyWidget *w = m_widgets[notification.hints().privateValue(this, "id").toInt()];

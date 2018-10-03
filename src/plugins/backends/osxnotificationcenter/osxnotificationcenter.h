@@ -33,6 +33,7 @@ public:
 
 public Q_SLOTS:
     void slotNotify(Snore::Notification notification) override;
+    void setDockBadgeLabel(const QString label);
 };
 
 #endif // OSXNOTIFICATIONCENTER_H

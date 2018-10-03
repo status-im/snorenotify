@@ -24,6 +24,7 @@ public Q_SLOTS:
     void slotCloseNotification(Snore::Notification notification) override;
     void slotRegisterApplication(const Snore::Application &application) override;
     void slotDeregisterApplication(const Snore::Application &application) override;
+    void setDockBadgeLabel(const QString label) override;
 
 private:
     QSystemTrayIcon *trayIcon(const Snore::Application &app);

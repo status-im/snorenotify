@@ -43,6 +43,7 @@ protected:
 public Q_SLOTS:
     virtual void slotNotify(::Snore::Notification notification) override;
     virtual void slotCloseNotification(::Snore::Notification notification) override;
+    virtual void setDockBadgeLabel(const QString label) override;
     void slotRegisterApplication(const ::Snore::Application &application);
 
 private:

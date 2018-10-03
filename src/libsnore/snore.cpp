@@ -137,6 +137,14 @@ void SnoreCore::broadcastNotification(Notification notification)
     emit d->notify(notification);
 }
 
+void SnoreCore::setDockBadgeLabel(const QString label)
+{
+    Q_D(const SnoreCore);
+    if (d->m_notificationBackend != nullptr) {
+      d->m_notificationBackend->setDockBadgeLabel(label);
+    }
+}
+
 void SnoreCore::registerApplication(const Application &application)
 {
     Q_D(SnoreCore);

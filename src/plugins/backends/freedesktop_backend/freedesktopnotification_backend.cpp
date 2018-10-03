@@ -90,6 +90,11 @@ void  SnorePlugin::Freedesktop::slotNotify(Snore::Notification noti)
     qCDebug(SNORE) << noti.id() << "|" << id.value();
 }
 
+void  SnorePlugin::Freedesktop::setDockBadgeLabel(const QString label)
+{
+
+}
+
 void SnorePlugin::Freedesktop::slotActionInvoked(const uint id, const QString &actionID)
 {
     qCDebug(SNORE) << id << m_dbusIdMap[id];

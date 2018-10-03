@@ -82,6 +82,11 @@ public:
     void displayExampleNotification();
 
     /**
+     * Sets dock badge label
+     */
+    void setDockBadgeLabel(const QString label);
+
+    /**
      * Register an application.
      * Each application should only be registered once.
      * An application must be registered before a notification can be broadcasted.
