@@ -20,6 +20,7 @@ public:
 public Q_SLOTS:
     void slotNotify(Snore::Notification notification) override;
     void slotCloseNotification(Snore::Notification notification) override;
+    void setDockBadgeLabel(const QString label) override;
 
     void slotActionInvoked(const uint id, const QString &actionID);
     void slotNotificationClosed(const uint id, const uint reason);

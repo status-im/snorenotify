@@ -30,6 +30,10 @@ void SnorePlugin::Trayicon::slotNotify(Snore::Notification notification)
     }
 }
 
+void SnorePlugin::Trayicon::setDockBadgeLabel(const QString label) {
+
+}
+
 void SnorePlugin::Trayicon::slotCloseNotification(Snore::Notification n)
 {
     QSystemTrayIcon *icon = trayIcon(n.application());

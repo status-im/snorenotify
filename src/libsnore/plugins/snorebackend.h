@@ -53,6 +53,7 @@ public Q_SLOTS:
     virtual void slotDeregisterApplication(const Snore::Application &application);
     virtual void slotNotify(Snore::Notification notification) = 0;
     virtual void slotCloseNotification(Snore::Notification notification);
+    virtual void setDockBadgeLabel(const QString label) = 0;
 
 protected Q_SLOTS:
     void slotNotificationDisplayed(Notification notification);

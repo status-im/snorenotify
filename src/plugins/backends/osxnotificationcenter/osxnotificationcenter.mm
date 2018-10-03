@@ -9,6 +9,7 @@
 #import <QMap>
 #include <Foundation/Foundation.h>
 #import <objc/runtime.h>
+#import "AppKit/NSApplication.h"
 
 using namespace Snore;
 
@@ -165,4 +166,7 @@ void OSXNotificationCenter::slotNotify(Snore::Notification notification)
     slotNotificationDisplayed(notification);
 }
 
-
+void OSXNotificationCenter::setDockBadgeLabel(const QString label)
+{
+  [[[NSApplication sharedApplication] dockTile] setBadgeLabel:label.toNSString()];
+}
