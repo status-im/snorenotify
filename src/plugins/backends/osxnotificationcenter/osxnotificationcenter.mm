@@ -21,35 +21,6 @@ void emitNotificationClicked(Notification notification) {
     emit SnoreCore::instance().actionInvoked(notification);
 }
 
-//
-// Overcome need for bundle identifier to display notification
-//
-
-#pragma mark - Swizzle NSBundle
-
-@implementation NSBundle(swizle)
-// Overriding bundleIdentifier works, but overriding NSUserNotificationAlertStyle does not work.
-- (NSString *)__bundleIdentifier
-{
-    if (self == [NSBundle mainBundle] && ![[self __bundleIdentifier] length]) {
-        return @"com.apple.terminal";
-    } else {
-        return [self __bundleIdentifier];
-    }
-}
-
-@end
-BOOL installNSBundleHook()
-{
-    Class cls = objc_getClass("NSBundle");
-    if (cls) {
-        method_exchangeImplementations(class_getInstanceMethod(cls, @selector(bundleIdentifier)),
-                                       class_getInstanceMethod(cls, @selector(__bundleIdentifier)));
-        return YES;
-    }
-    return NO;
-}
-
 
 //
 // Enable reaction when user clicks on NSUserNotification
@@ -134,7 +105,6 @@ static UserNotificationItemClass * delegate = 0;
 
 OSXNotificationCenter::OSXNotificationCenter()
 {
-    installNSBundleHook();
     m_IdToNSNotification = [[NSMutableDictionary alloc] init];
     if (!delegate) {
         delegate = new UserNotificationItemClass();
