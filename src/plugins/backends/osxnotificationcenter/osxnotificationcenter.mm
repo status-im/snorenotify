@@ -12,7 +12,7 @@
 
 using namespace Snore;
 
-QMap<int, Notification> m_IdToNotification;
+QMapTestTest<int, Notification> m_IdToNotification;
 NSMutableDictionary * m_IdToNSNotification;
 OSXNotificationCenter * notificationCenter = nil;
 
