@@ -99,7 +99,7 @@ void PluginContainer::updatePluginCache()
         list.clear();
     }
 
-#if !SNORE_STATIC
+//#if !SNORE_STATIC
     foreach(const SnorePlugin::PluginTypes type, SnorePlugin::types()) {
         foreach(const QFileInfo & file, pluginDir().entryInfoList(pluginFileFilters(type), QDir::Files)) {
             qCDebug(SNORE) << "adding" << file.absoluteFilePath();
@@ -113,7 +113,7 @@ void PluginContainer::updatePluginCache()
             }
         }
     }
-#else
+/*#else
     foreach (const QStaticPlugin plugin, QPluginLoader::staticPlugins()) {
         QJsonObject data = plugin.metaData()[QStringLiteral("MetaData")].toObject();
         QString name = data.value(QStringLiteral("name")).toString();
@@ -124,7 +124,7 @@ void PluginContainer::updatePluginCache()
             qCDebug(SNORE) << "added" << sp->type() << ":" << name << "to cache";
         }
     }
-#endif
+#endif*/
 }
 
 const QHash<QString, PluginContainer *> PluginContainer::pluginCache(SnorePlugin::PluginTypes type)
