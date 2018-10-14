@@ -86,18 +86,24 @@ BOOL installNSBundleHook()
         ^{
             int notificationId = [notification.userInfo[@"id"] intValue];
             qDebug() << "!!! Notification was delivered to NotificationCenter. ID:" << notificationId;
-            BOOL notificationAvailable = YES;
-            while(notificationAvailable) {
-                notificationAvailable = NO;
+            qDebug() << "--- List available notifications in NotificationCenter:";
+            for(NSUserNotification *osxNotification in [[NSUserNotificationCenter defaultUserNotificationCenter] deliveredNotifications]) {
+              int fetchedNotificationID = [osxNotification.userInfo[@"id"] intValue];
+              qDebug() << "--- Notification is available with ID:" << fetchedNotificationID;
+            }
+            bool notificationAvailable = true;
+            while(notificationAvailable == true) {
+                notificationAvailable = false;
                 for(NSUserNotification *osxNotification in [[NSUserNotificationCenter defaultUserNotificationCenter] deliveredNotifications]) {
                    int fetchedNotificationID = [osxNotification.userInfo[@"id"] intValue];
                    if(fetchedNotificationID == notificationId) {
-                        notificationAvailable = YES;
+                        notificationAvailable = true;
                         [NSThread sleepForTimeInterval:0.25f];
                         break;
                     }
                 }
             }
+            qDebug() << "Finishing availability checking for notificaion with ID:" <<notificationId;
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!m_IdToNotification.contains(notificationId)) {
                     qCWarning(SNORE) << "Delivered notification is not recognized and will not be remove from active list. Notification id:" << notificationId;
