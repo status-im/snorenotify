@@ -49,18 +49,18 @@ function(add_snore_plugin SNORE_NAME)
 
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/snore_plugin.json "{ \"name\" : \"${SNORE_NAME}\" }")
 
-    if(NOT SNORE_STATIC)
+    #if(NOT SNORE_STATIC)
         add_library(libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} MODULE ${SNORE_SOURCES})
         install(TARGETS libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} ${SNORE_PLUGIN_INSTALL_PATH})
-    else()
-        list(APPEND SNORE_PLUGIN_LIST "${SNORE_NAME_NO_SPACE}")
-        add_library(libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} STATIC ${SNORE_SOURCES})
+    #if(SNORE_STATIC)
+    #    list(APPEND SNORE_PLUGIN_LIST "${SNORE_NAME_NO_SPACE}")
+    #    add_library(libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} STATIC ${SNORE_SOURCES})
         #todo install and export the plugins
         #install(TARGETS libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
-        set_property( TARGET libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE}
-                      APPEND
-                      PROPERTY COMPILE_DEFINITIONS QT_STATICPLUGIN)
-    endif()
+    #    set_property( TARGET libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE}
+    #                  APPEND
+    #                  PROPERTY COMPILE_DEFINITIONS QT_STATICPLUGIN)
+    #endif()
 
     target_link_libraries(libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} Snore::Libsnore ${SNORE_LIBS})
 
