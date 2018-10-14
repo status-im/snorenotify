@@ -22,17 +22,27 @@
 #include "libsnore/plugins/plugins.h"
 #include "libsnore/snore.h"
 
+#include <QDateTime>
 #include <QSharedData>
+#include <QString>
 
 using namespace Snore;
 
 uint NotificationData::notificationCount = 0;
 
-uint NotificationData::m_idCount = 1;
+namespace {
+uint m_idCount = 1;
+}
+
+uint getNewId() {
+    const QDateTime& d = QDateTime::currentDateTime();
+    QString result = QString(QStringLiteral("%1%2")).arg(d.toString(QStringLiteral("Hmmsszzz"))).arg(m_idCount++);
+    return result.toUInt();
+}
 
 NotificationData::NotificationData(const Snore::Application &application, const Snore::Alert &alert, const QString &title, const QString &text, const Icon &icon,
                                    int timeout, Notification::Prioritys priority):
-    m_id(m_idCount++),
+    m_id(getNewId()),
     m_timeout(priority == Notification::Emergency ? 0 : timeout),
     m_application(application),
     m_alert(alert),
@@ -48,7 +58,7 @@ NotificationData::NotificationData(const Snore::Application &application, const 
 }
 
 Snore::NotificationData::NotificationData(const Notification &old, const QString &title, const QString &text, const Icon &icon, int timeout, Notification::Prioritys priority):
-    m_id(m_idCount++),
+    m_id(getNewId()),
     m_timeout(priority == Notification::Emergency ? 0 : timeout),
     m_application(old.application()),
     m_alert(old.alert()),

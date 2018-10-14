@@ -94,7 +94,6 @@ private:
     SnorePlugin *m_source = nullptr;
 
     static uint notificationCount;
-    static uint m_idCount;
 
     friend class Notification;
     friend class SnoreCorePrivate;
