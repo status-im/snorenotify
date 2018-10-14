@@ -85,6 +85,7 @@ BOOL installNSBundleHook()
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
         ^{
             int notificationId = [notification.userInfo[@"id"] intValue];
+            qDebug() << "!!! Notification was delivered to NotificationCenter. ID:" << notificationId;
             BOOL notificationAvailable = YES;
             while(notificationAvailable) {
                 notificationAvailable = NO;
@@ -156,7 +157,7 @@ void OSXNotificationCenter::slotNotify(Snore::Notification notification)
     osxNotification.title = notification.title().toNSString();
     osxNotification.userInfo = [NSDictionary dictionaryWithObjectsAndKeys:notificationId, @"id", nil];
     osxNotification.informativeText = notification.text().toNSString();
-    //osxNotification.identifier = notificationId;
+    osxNotification.identifier = @"im.status.statusim.notifications";
     
     // Add notification to mapper from id to Nofification / NSUserNotification
     m_IdToNotification.insert(notification.id(), notification);
