@@ -89,7 +89,8 @@ BOOL installNSBundleHook()
             while(notificationAvailable) {
                 notificationAvailable = NO;
                 for(NSUserNotification *osxNotification in [[NSUserNotificationCenter defaultUserNotificationCenter] deliveredNotifications]) {
-                    if([osxNotification.identifier isEqualToString:notification.identifier]) {
+                   int fetchedNotificationID = [osxNotification.userInfo[@"id"] intValue];
+                   if(fetchedNotificationID == notificationId) {
                         notificationAvailable = YES;
                         [NSThread sleepForTimeInterval:0.25f];
                         break;
@@ -155,7 +156,7 @@ void OSXNotificationCenter::slotNotify(Snore::Notification notification)
     osxNotification.title = notification.title().toNSString();
     osxNotification.userInfo = [NSDictionary dictionaryWithObjectsAndKeys:notificationId, @"id", nil];
     osxNotification.informativeText = notification.text().toNSString();
-    osxNotification.identifier = notificationId;
+    //osxNotification.identifier = notificationId;
     
     // Add notification to mapper from id to Nofification / NSUserNotification
     m_IdToNotification.insert(notification.id(), notification);
