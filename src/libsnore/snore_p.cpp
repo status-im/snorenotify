@@ -116,7 +116,7 @@ bool SnoreCorePrivate::setBackendIfAvailible(const QString &backend)
         });
         emit q->primaryNotificationBackendChanged(b->name());
 
-        Application app = SnoreCorePrivate::instance()->defaultApplication();
+        /*Application app = SnoreCorePrivate::instance()->defaultApplication();
         QString text = QLatin1String("<i>") + tr("This is %1").arg(app.name()) + QLatin1String("</i><br>"
                        "<b>") + tr("Everything is awesome!") + QLatin1String("</b><br>");
         if (!app.constHints().value("use-markup").toBool()) {
@@ -125,7 +125,7 @@ bool SnoreCorePrivate::setBackendIfAvailible(const QString &backend)
         Notification noti(app, app.defaultAlert(), tr("Hello There!"), text, app.icon());
         noti.addAction(Action(1, tr("Awesome Action!")));
 
-        m_notificationBackend->slotNotify(noti);
+        m_notificationBackend->slotNotify(noti);*/
         return true;
     }
     return false;
