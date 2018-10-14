@@ -149,13 +149,13 @@ OSXNotificationCenter::~OSXNotificationCenter()
 
 void OSXNotificationCenter::slotNotify(Snore::Notification notification)
 {
-    qDebug() << "!!! OSXNotificationCenter::slotNotify";
+    qDebug() << "!!! OSXNotificationCenter::slotNotify 2";
     NSUserNotification * osxNotification = [[[NSUserNotification alloc] init] autorelease];
     NSString * notificationId = [NSString stringWithFormat:@"%d",notification.id()];
     osxNotification.title = notification.title().toNSString();
     osxNotification.userInfo = [NSDictionary dictionaryWithObjectsAndKeys:notificationId, @"id", nil];
     osxNotification.informativeText = notification.text().toNSString();
-    // osxNotification.identifier = notificationId;
+    osxNotification.identifier = notificationId;
     
     // Add notification to mapper from id to Nofification / NSUserNotification
     m_IdToNotification.insert(notification.id(), notification);
