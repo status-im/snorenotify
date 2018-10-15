@@ -93,6 +93,7 @@ public:
     virtual ~SnorePlugin();
 
     void setSnoreCoreInstance(SnoreCore* instance);
+    SnoreCore* getSnoreCore() const;
 
     /**
      * Sets the enabled state of the plugin to @param enabled .
@@ -168,6 +169,7 @@ private:
     QString m_name;
     QString m_error;
     Hint m_hints;
+    SnoreCore *m_snoreCore = nullptr;
 
     friend class PluginContainer;
 

@@ -63,6 +63,12 @@ public:
     static void setInstance(SnoreCore* i);
     ~SnoreCore();
 
+    SnoreCorePrivate * impl()
+    {
+        return d_ptr;
+    }
+
+
     /**
      * Load a set of plugins
      *

@@ -45,7 +45,13 @@ SnorePlugin::~SnorePlugin()
 
 void SnorePlugin::setSnoreCoreInstance(SnoreCore *instance)
 {
-    SnoreCore::setInstance(instance);
+    m_snoreCore = instance;
+}
+
+SnoreCore *SnorePlugin::getSnoreCore() const
+{
+    Q_ASSERT(m_snoreCore);
+    return m_snoreCore;
 }
 
 bool SnorePlugin::isEnabled() const
@@ -55,17 +61,17 @@ bool SnorePlugin::isEnabled() const
 
 QVariant SnorePlugin::settingsValue(const SettingsKey &key) const
 {
-    return SnoreCore::instance().settingsValue(normaliseKey(key));
+    return getSnoreCore()->settingsValue(normaliseKey(key));
 }
 
 void SnorePlugin::setSettingsValue(const SettingsKey &key, const QVariant &value)
 {
-    SnoreCore::instance().setSettingsValue(normaliseKey(key), value);
+    getSnoreCore()->setSettingsValue(normaliseKey(key), value);
 }
 
 void SnorePlugin::setDefaultSettingsValue(const SettingsKey &key, const QVariant &value)
 {
-    SnoreCore::instance().setDefaultSettingsValue(normaliseKey(key), value);
+    getSnoreCore()->setDefaultSettingsValue(normaliseKey(key), value);
 }
 
 const Hint &SnorePlugin::constHints() const

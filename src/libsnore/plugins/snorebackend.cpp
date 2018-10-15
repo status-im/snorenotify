@@ -33,24 +33,24 @@ SnoreBackend::SnoreBackend()
 {
     connect(this, &SnoreBackend::enabledChanged, [this](bool enabled) {
         if (enabled) {
-            connect(SnoreCorePrivate::instance(), &SnoreCorePrivate::applicationRegistered, this, &SnoreBackend::slotRegisterApplication, Qt::QueuedConnection);
-            connect(SnoreCorePrivate::instance(), &SnoreCorePrivate::applicationDeregistered, this, &SnoreBackend::slotDeregisterApplication, Qt::QueuedConnection);
+            connect(getSnoreCore()->impl(), &SnoreCorePrivate::applicationRegistered, this, &SnoreBackend::slotRegisterApplication, Qt::QueuedConnection);
+            connect(getSnoreCore()->impl(), &SnoreCorePrivate::applicationDeregistered, this, &SnoreBackend::slotDeregisterApplication, Qt::QueuedConnection);
 
-            connect(this, &SnoreBackend::notificationClosed, SnoreCorePrivate::instance(), &SnoreCorePrivate::slotNotificationClosed, Qt::QueuedConnection);
-            connect(SnoreCorePrivate::instance(), &SnoreCorePrivate::notify, this, &SnoreBackend::slotNotify, Qt::QueuedConnection);
+            connect(this, &SnoreBackend::notificationClosed, getSnoreCore()->impl(), &SnoreCorePrivate::slotNotificationClosed, Qt::QueuedConnection);
+            connect(getSnoreCore()->impl(), &SnoreCorePrivate::notify, this, &SnoreBackend::slotNotify, Qt::QueuedConnection);
 
-            for (const Application &a : SnoreCore::instance().aplications()) {
+            for (const Application &a : getSnoreCore()->aplications()) {
                 slotRegisterApplication(a);
             }
         } else {
-            for (const Application &a : SnoreCore::instance().aplications()) {
+            for (const Application &a : getSnoreCore()->aplications()) {
                 slotDeregisterApplication(a);
             }
-            disconnect(SnoreCorePrivate::instance(), &SnoreCorePrivate::applicationRegistered, this, &SnoreBackend::slotRegisterApplication);
-            disconnect(SnoreCorePrivate::instance(), &SnoreCorePrivate::applicationDeregistered, this, &SnoreBackend::slotDeregisterApplication);
+            disconnect(getSnoreCore()->impl(), &SnoreCorePrivate::applicationRegistered, this, &SnoreBackend::slotRegisterApplication);
+            disconnect(getSnoreCore()->impl(), &SnoreCorePrivate::applicationDeregistered, this, &SnoreBackend::slotDeregisterApplication);
 
-            disconnect(this, &SnoreBackend::notificationClosed, SnoreCorePrivate::instance(), &SnoreCorePrivate::slotNotificationClosed);
-            disconnect(SnoreCorePrivate::instance(), &SnoreCorePrivate::notify, this, &SnoreBackend::slotNotify);
+            disconnect(this, &SnoreBackend::notificationClosed, getSnoreCore()->impl(), &SnoreCorePrivate::slotNotificationClosed);
+            disconnect(getSnoreCore()->impl(), &SnoreCorePrivate::notify, this, &SnoreBackend::slotNotify);
         }
     });
 }
@@ -122,12 +122,12 @@ void SnoreBackend::slotDeregisterApplication(const Application &application)
 void SnoreBackend::slotNotificationDisplayed(Notification notification)
 {
     notification.addActiveIn(this);
-    SnoreCorePrivate::instance()->slotNotificationDisplayed(notification);
+    getSnoreCore()->impl()->slotNotificationDisplayed(notification);
 }
 
 void SnoreBackend::slotNotificationActionInvoked(Notification notification, const Action &action)
 {
     notification.data()->setActionInvoked(action);
-    SnoreCorePrivate::instance()->slotNotificationActionInvoked(notification);
+    getSnoreCore()->impl()->slotNotificationActionInvoked(notification);
 }
 
