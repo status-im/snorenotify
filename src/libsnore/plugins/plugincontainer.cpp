@@ -65,6 +65,7 @@ SnorePlugin *PluginContainer::load()
     }
     if (!m_plugin) {
         m_plugin = qobject_cast<SnorePlugin *> (m_loader.instance());
+        m_plugin->setSnoreCoreInstance(&SnoreCore::instance());
         m_plugin->m_name = name();
         m_plugin->setDefaultSettings();
     }

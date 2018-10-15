@@ -66,6 +66,12 @@ SnoreCore &SnoreCore::instance()
     return *inst;
 }
 
+void SnoreCore::setInstance(SnoreCore* i)
+{
+    qCDebug(SNORE) << "SnoreCore::setInstance Old: " << inst << " New: " << i;
+    inst = i;
+}
+
 SnoreCore::~SnoreCore()
 {
     Q_D(SnoreCore);

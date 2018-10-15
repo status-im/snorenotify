@@ -29,6 +29,7 @@ namespace Snore
 {
 
 class PluginContainer;
+class SnoreCore;
 
 /**
  *  SnorePlugin represents the base class for the plugins.
@@ -90,6 +91,8 @@ public:
 
     SnorePlugin();
     virtual ~SnorePlugin();
+
+    void setSnoreCoreInstance(SnoreCore* instance);
 
     /**
      * Sets the enabled state of the plugin to @param enabled .

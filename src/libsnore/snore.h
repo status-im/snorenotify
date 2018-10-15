@@ -60,6 +60,7 @@ public:
      * Creates a Notification Manager SnoreCore
      */
     static SnoreCore &instance();
+    static void setInstance(SnoreCore* i);
     ~SnoreCore();
 
     /**

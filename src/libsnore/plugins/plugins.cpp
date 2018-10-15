@@ -43,6 +43,11 @@ SnorePlugin::~SnorePlugin()
     qCDebug(SNORE) << name() << this << "deleted";
 }
 
+void SnorePlugin::setSnoreCoreInstance(SnoreCore *instance)
+{
+    SnoreCore::setInstance(instance);
+}
+
 bool SnorePlugin::isEnabled() const
 {
     return m_enabled;
