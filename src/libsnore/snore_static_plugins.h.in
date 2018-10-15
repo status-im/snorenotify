@@ -31,16 +31,16 @@ namespace SnorePlugin {}
 using namespace SnorePlugin;
 ${SNORE_PLUGIN_LOADING}
 
-namespace {
-    static void loadSnoreResources()
-    {
-        // prevent multiple symbols
-         static const auto load = []() {
-             ${SNORE_RESOURCE_LOADING}
-         };
-         load();
-    }
+
+static void loadSnoreResources()
+{
+    // prevent multiple symbols
+     static const auto load = []() {
+         ${SNORE_RESOURCE_LOADING}
+     };
+     load();
 }
+
 Q_COREAPP_STARTUP_FUNCTION(loadSnoreResources)
 #endif
 
