@@ -60,6 +60,7 @@ function(add_snore_plugin SNORE_NAME)
         set_property( TARGET libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE}
                       APPEND
                       PROPERTY COMPILE_DEFINITIONS QT_STATICPLUGIN)
+        set_target_properties(libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} PROPERTIES PREFIX "")
     endif()
 
     target_link_libraries(libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} Snore::Libsnore ${SNORE_LIBS})
