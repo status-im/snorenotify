@@ -73,11 +73,13 @@ function(add_snore_plugin SNORE_NAME)
             install(TARGETS libsnore_settings_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} ${SNORE_PLUGIN_INSTALL_PATH})
         else()
              add_library(libsnore_settings_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} STATIC ${SNORE_SETTINGS_SOURCES} )
+             install(TARGETS libsnore_settings_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
              set_property( TARGET libsnore_settings_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE}
                            APPEND
                            PROPERTY COMPILE_DEFINITIONS QT_STATICPLUGIN)
              list(APPEND SNORE_PLUGINS libsnore_settings_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} )
              list(APPEND SNORE_PLUGIN_LIST "${SNORE_NAME_NO_SPACE}SettingsPlugin")
+             set_target_properties(libsnore_settings_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} PROPERTIES PREFIX "")
         endif()
         target_link_libraries(libsnore_settings_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} Snore::Libsnore Snore::LibsnoreSettings ${SNORE_SETTINGS_LIBS})
     endif()
