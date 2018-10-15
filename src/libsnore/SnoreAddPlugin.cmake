@@ -56,7 +56,7 @@ function(add_snore_plugin SNORE_NAME)
         list(APPEND SNORE_PLUGIN_LIST "${SNORE_NAME_NO_SPACE}")
         add_library(libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} STATIC ${SNORE_SOURCES})
         #todo install and export the plugins
-        #install(TARGETS libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+        install(TARGETS libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE} ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
         set_property( TARGET libsnore_${SNORE_TYPE_LOWERCASE}_${SNORE_NAME_LOWERCASE}
                       APPEND
                       PROPERTY COMPILE_DEFINITIONS QT_STATICPLUGIN)
