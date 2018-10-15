@@ -174,6 +174,7 @@ private:
     SnoreCore(QObject *parent);
     SnoreCorePrivate *d_ptr;
 
+    static SnoreCore* inst;
 };
 
 }

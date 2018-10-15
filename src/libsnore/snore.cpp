@@ -32,8 +32,11 @@
 #include <QGuiApplication>
 #include <QSettings>
 #include <QThread>
+#include <QMutex>
 
 using namespace Snore;
+
+SnoreCore *SnoreCore::inst = nullptr;
 
 SnoreCore::SnoreCore(QObject *parent):
     QObject(parent)
@@ -48,17 +51,19 @@ SnoreCore::SnoreCore(QObject *parent):
 
 SnoreCore &SnoreCore::instance()
 {
-    static SnoreCore *instance = nullptr;
-    if (!instance) {
+    qCDebug(SNORE) << "Getting SnoreCore instance: " << inst;
+    if (!inst) {
+        qCDebug(SNORE) << "Creating new SnoreCore instance: " << inst;
         qRegisterMetaType<Application>();
         qRegisterMetaType<LambdaHint>();
         qRegisterMetaType<Notification>();
         qRegisterMetaType<SnorePlugin::PluginTypes>();
         qRegisterMetaTypeStreamOperators<SnorePlugin::PluginTypes>();
-        instance = new SnoreCore(qApp);
+        inst = new SnoreCore(qApp);
         SnoreCorePrivate::instance()->init();
+        qCDebug(SNORE) << "Creating new SnoreCore instance is finished: " << inst;
     }
-    return *instance;
+    return *inst;
 }
 
 SnoreCore::~SnoreCore()
