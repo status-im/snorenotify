@@ -102,11 +102,11 @@ BOOL installNSBundleHook()
                     qCWarning(SNORE) << "Delivered notification is not recognized and will not be remove from active list. Notification id:" << notificationId;
                     return;
                 }
+                qCWarning(SNORE) << "Notification with following id is delivered or dismissed:" << notificationId;
+                auto snoreNotification = m_IdToNotification.take(notificationId);
+                snoreNotification.removeActiveIn(notificationCenter);
+                snoreNotification.removeActiveIn(&SnoreCore::instance());
             });
-            qCWarning(SNORE) << "Notification with following id is delivered or dismissed:" << notificationId;
-            auto snoreNotification = m_IdToNotification.take(notificationId);
-            snoreNotification.removeActiveIn(notificationCenter);
-            snoreNotification.removeActiveIn(&SnoreCore::instance());
         });
 }
 @end
