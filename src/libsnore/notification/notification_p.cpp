@@ -34,7 +34,10 @@ uint m_idCount = 1;
 }
 uint getNewId() {
     const QDateTime& d = QDateTime::currentDateTime();
-    QString result = QString(QStringLiteral("%1%2")).arg(d.toString(QStringLiteral("Hmmsszzz"))).arg(m_idCount++);
+    QString result = QString(QStringLiteral("%1%2")).arg(d.toString(QStringLiteral("Hmmss"))).arg(m_idCount++);
+    if (m_idCount >= 1000) {
+        m_idCount = 0;
+    }
     return result.toUInt();
 }
 
