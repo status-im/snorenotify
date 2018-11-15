@@ -138,3 +138,8 @@ QProcess *SnorePlugin::WindowsToast::createProcess(Snore::Notification noti)
     connect(qApp, &QGuiApplication::aboutToQuit, p, &QProcess::kill);
     return p;
 }
+
+void  SnorePlugin::WindowsToast::setDockBadgeLabel(const QString label)
+{
+
+}

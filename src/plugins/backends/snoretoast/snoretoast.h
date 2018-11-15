@@ -23,6 +23,7 @@ public Q_SLOTS:
     void slotNotify(Snore::Notification notification) override;
     void slotRegisterApplication(const Snore::Application &application) override;
     void slotCloseNotification(Snore::Notification notification) override;
+    void setDockBadgeLabel(const QString label) override;
 
 private:
     QString appId(const Snore::Application &application);
